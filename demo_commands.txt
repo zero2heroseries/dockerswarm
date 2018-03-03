@@ -1,0 +1,94 @@
+//
+// System setup
+//
+2 X Windows 2016 Build 1709 ( insiders edition )   2GB Ram, 80GB HDD
+
+
+// 
+// Start DEMO
+//
+
+// Turn off automatic checkpoints on Hyperv
+
+// Static MAC address
+
+// Static IP Address and Server Name
+192.168.1.70 - Swarm1
+192.168.1.71 - Swarm2
+
+// Nested Virtualization
+Set-VMProcessor -VMName Swarm1 -ExposeVirtualizationExtensions $true
+Set-VMProcessor -VMName Swarm2 -ExposeVirtualizationExtensions $true
+
+// Firewall
+The following ports must be available between swarm nodes.
+TCP port 2377 for cluster management communications
+TCP and UDP port 7946 for communication among nodes
+UDP port 4789 for overlay network traffic
+
+// Turn off Firewall
+Set-NetFirewallProfile -Profile Domain,Public,Private -Enabled False
+
+// Enable hyperv on swarm nodes
+Install-WindowsFeature -Name Hyper-V -IncludeManagementTools -Restart
+
+// Install Docker Preview with Router Mesh support 
+Install-Module DockerProvider -Force
+Install-Package Docker -ProviderName DockerProvider -RequiredVersion preview -Force
+
+// Default isolation level set to Hyperv
+Copy file daemon.json to c:\ProgramData\docker\config
+{
+"exec-opts":["isolation=hyperv"]
+}
+
+
+
+
+// Create Swarm 
+docker swarm init --advertise-addr 192.168.1.70 --listen-addr 192.168.1.70:2377
+
+// Create Swarm network
+docker network create -d overlay --attachable swarmnet
+
+// Add node to the cluster
+docker swarm join-token worker
+
+// Create swarm service
+docker service create --name webswarm --network swarmnet --publish 8080:80 andrewsheley/dockeraspnetcore:latest
+
+// Rolling update
+docker service update --image andrewsheley/dockeraspnetcore:1.1 webswarm
+
+// Rollback
+docker service update --rollback webswarm
+
+
+
+
+
+
+//
+// Docker commands
+//
+docker service ls
+docker service ps <service>
+
+
+
+//
+// Misc commands
+//
+// Start powershell elevated permissions
+powershell -command "start-process powershell -verb runas"
+
+
+
+//
+// Links
+//
+// Instructions to set up swarm
+https://docs.microsoft.com/en-us/virtualization/windowscontainers/manage-containers/swarm-mode
+
+// Windows Server 2016 Insider Edition
+https://insider.windows.com/en-us/for-business-getting-started-server/
