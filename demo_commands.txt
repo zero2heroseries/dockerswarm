@@ -83,13 +83,6 @@ docker node update --availability active swarm2
 
 
 
-//
-// Docker commands
-//
-docker service ls
-docker service ps <service>
-docker node ls
-
 
 
 //
