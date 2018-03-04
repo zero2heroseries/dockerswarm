@@ -8,13 +8,16 @@
 // Start DEMO
 //
 
+// Create Docker Hub account
+http://hub.docker.com
+
 // Turn off automatic checkpoints on Hyperv
 
 // Static MAC address
 
 // Static IP Address and Server Name
-192.168.1.70 - Swarm1
-192.168.1.71 - Swarm2
+192.168.1.71 - Swarm1
+192.168.1.72 - Swarm2
 
 // Nested Virtualization
 Set-VMProcessor -VMName Swarm1 -ExposeVirtualizationExtensions $true
@@ -36,35 +39,47 @@ Install-WindowsFeature -Name Hyper-V -IncludeManagementTools -Restart
 Install-Module DockerProvider -Force
 Install-Package Docker -ProviderName DockerProvider -RequiredVersion preview -Force
 
-// Default isolation level set to Hyperv
+
+
+// Default isolation level set to Hyperv OPTIONAL STEP
 Copy file daemon.json to c:\ProgramData\docker\config
 {
 "exec-opts":["isolation=hyperv"]
 }
 
+// Apply updates
+sconfig
+
 
 
 
 // Create Swarm 
-docker swarm init --advertise-addr 192.168.1.70 --listen-addr 192.168.1.70:2377
+docker swarm init --advertise-addr 192.168.1.71 --listen-addr 192.168.1.71:2377
 
 // Create Swarm network
 docker network create -d overlay --attachable swarmnet
 
-// Add node to the cluster
-docker swarm join-token worker
+// Add node to the cluster as worker
+docker swarm join-token worker   
+// Add node to the cluster as manager
+docker swarm join-token manager
+
 
 // Create swarm service
-docker service create --name webswarm --network swarmnet --publish 8080:80 andrewsheley/dockeraspnetcore:latest
+docker service create --name webswarm --network swarmnet --replicas=2  --publish 8080:80 zero2heroseries/dockerswarm:1.0
 
 // Rolling update
-docker service update --image andrewsheley/dockeraspnetcore:1.1 webswarm
+docker service update --image zero2heroseries/dockerswarm:1.0 webswarm
 
 // Rollback
 docker service update --rollback webswarm
 
 
+// Drain Node
+docker node update --availability drain swarm2
 
+// Add back to cluster
+docker node update --availability active swarm2
 
 
 
@@ -92,3 +107,7 @@ https://docs.microsoft.com/en-us/virtualization/windowscontainers/manage-contain
 
 // Windows Server 2016 Insider Edition
 https://insider.windows.com/en-us/for-business-getting-started-server/
+
+// Docker swarm management
+https://docs.docker.com/engine/swarm/admin_guide/#run-manager-only-nodes
+
