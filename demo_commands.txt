@@ -32,6 +32,9 @@ TCP port 2377 for cluster management communications
 TCP and UDP port 7946 for communication among nodes
 UDP port 4789 for overlay network traffic
 
+// Set TimeZone
+set-timezone "Central Standard Time"
+
 // Turn off Firewall
 Set-NetFirewallProfile -Profile Domain,Public,Private -Enabled False
 
@@ -108,3 +111,5 @@ https://insider.windows.com/en-us/for-business-getting-started-server/
 // Docker swarm management
 https://docs.docker.com/engine/swarm/admin_guide/#run-manager-only-nodes
 
+// Visual Studio Community Edition
+https://www.visualstudio.com/
