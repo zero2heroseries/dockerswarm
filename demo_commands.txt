@@ -11,16 +11,15 @@
 // Create .Net Core 2.0 application
 &nbsp;&nbsp;&nbsp;&nbsp;  Version: @Microsoft.Extensions.PlatformAbstractions.PlatformServices.Default.Application.ApplicationVersion
 
-// Create Docker Hub account
-http://hub.docker.com
 
-// Turn off automatic checkpoints on Hyperv
 
-// Static MAC address
 
 // Static IP Address and Server Name
 192.168.1.71 - Swarm1
 192.168.1.72 - Swarm2
+
+// Turn off automatic checkpoints on Hyperv
+
 
 // Nested Virtualization
 Set-VMProcessor -VMName Swarm1 -ExposeVirtualizationExtensions $true
@@ -102,6 +101,10 @@ powershell -command "start-process powershell -verb runas"
 //
 // Links
 //
+
+// Docker Hub/Docker Store
+http://hub.docker.com
+
 // Instructions to set up swarm
 https://docs.microsoft.com/en-us/virtualization/windowscontainers/manage-containers/swarm-mode
 
