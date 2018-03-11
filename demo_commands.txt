@@ -15,8 +15,8 @@
 
 
 // Static IP Address and Server Name
-192.168.1.71 - Swarm1
-192.168.1.72 - Swarm2
+192.168.1.171 - Swarm1
+192.168.1.172 - Swarm2
 
 // Turn off automatic checkpoints on Hyperv
 
