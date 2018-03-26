@@ -9,7 +9,7 @@
 //
 
 // Create .Net Core 2.0 application
-&nbsp;&nbsp;&nbsp;&nbsp;  Version: @Microsoft.Extensions.PlatformAbstractions.PlatformServices.Default.Application.ApplicationVersion
+&nbsp;&nbsp;&nbsp;&nbsp; @System.Environment.MachineName - Version: @Microsoft.Extensions.PlatformAbstractions.PlatformServices.Default.Application.ApplicationVersion
 
 
 
