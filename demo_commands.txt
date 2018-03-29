@@ -59,7 +59,7 @@ sconfig
 
 
 // Create Swarm 
-docker swarm init --advertise-addr 192.168.1.71 --listen-addr 192.168.1.71:2377
+docker swarm init --advertise-addr 192.168.1.171 --listen-addr 192.168.1.171:2377
 
 // Create Swarm network
 docker network create -d overlay --attachable swarmnet
@@ -71,10 +71,10 @@ docker swarm join-token manager
 
 
 // Create swarm service
-docker service create --name webswarm --network swarmnet --replicas=2  --publish 8080:80 zero2heroseries/dockerswarm:1.0
+docker service create --name webswarm --network swarmnet --replicas=2  --publish 8080:80 zero2heroseries/dockerdemo:v1.0
 
 // Rolling update
-docker service update --image zero2heroseries/dockerswarm:1.0 webswarm
+docker service update --image zero2heroseries/dockerdemo:v1.1 webswarm
 
 // Rollback
 docker service update --rollback webswarm
