@@ -20,6 +20,9 @@
 
 // Turn off automatic checkpoints on Hyperv
 
+// Turn off dynamic memory
+
+// Static MAC address
 
 // Nested Virtualization
 Set-VMProcessor -VMName Swarm1 -ExposeVirtualizationExtensions $true
